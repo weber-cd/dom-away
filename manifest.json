@@ -1,0 +1,15 @@
+{
+  "name": "Dom Destroy",
+  "description" : "A Extension To Delete Specified Dom",
+  "version": "1.0",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": ["activeTab", "declarativeContent", "storage", "*://*/*"],
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_icon": "hi.png"
+  },
+  "manifest_version": 2
+}
