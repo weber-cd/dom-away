@@ -1,6 +1,7 @@
 {
   "name": "Dom Destroy",
   "description" : "A Extension To Delete Specified Dom",
+  "author": "weber.cd@foxmail.com",
   "version": "1.0",
   "background": {
     "scripts": ["background.js"],
@@ -11,5 +12,13 @@
     "default_popup": "index.html",
     "default_icon": "hi.png"
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
   "manifest_version": 2
 }
