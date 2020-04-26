@@ -36,6 +36,9 @@ function getButtonElement(){
   buttonElement.style.zIndex = Number.MAX_SAFE_INTEGER;
   buttonElement.style.fontSize = '12px';
   buttonElement.style.padding = '0px';
+  buttonElement.addEventListener('click', function(event){
+    lastMoveoutElement.style.display = 'none'
+  })
   bodyElement.append(buttonElement)
   return buttonElement
 }
@@ -57,6 +60,28 @@ bodyElement && bodyElement.addEventListener("mouseover", function(event){
 }, false)
 
 bodyElement && bodyElement.addEventListener('mouseout', function(event){
+  // console.log("event:", cssPath(event.target))
+  if(event.target === buttonElement){
+    lastMoveoutElement.style.border = null;
+  }
   event.target.style.border = null;
   lastMoveoutElement = event.target;
 }, false)
+
+cssPath = function cssPath(el) {
+  if (!(el instanceof Element)) return;
+  var path = [];
+  while (el.nodeType === Node.ELEMENT_NODE && el.nodeName !== 'HTML') {
+      var selector = el.nodeName.toLowerCase();
+      if (el.id) {
+          selector += '#' + el.id;
+      } else {
+          var sib = el, nth = 1;
+          while (sib.nodeType === Node.ELEMENT_NODE && el.nodeName !== 'HTML' && (sib = sib.previousSibling) && nth++);
+          selector += ":nth-child("+nth+")";
+      }
+      path.unshift(selector);
+      el = el.parentNode;
+  }
+  return path.join(" > ");
+}
