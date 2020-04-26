@@ -1,0 +1,35 @@
+{
+  "name": "dom-away",
+  "version": "1.0.0",
+  "description": "a chrome extension to remove specified dom",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weber-cd/dom-away.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "remove",
+    "dom"
+  ],
+  "author": "weber.cd@foxmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weber-cd/dom-away/issues"
+  },
+  "homepage": "https://github.com/weber-cd/dom-away#readme",
+  "devDependencies": {
+    "commitizen": "^4.0.4",
+    "cz-customizable": "^6.2.0"
+  }
+}
