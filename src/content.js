@@ -2,7 +2,7 @@ let bodyElement = document.querySelector('body')
 let buttonElement = null;
 let moveToDeleteButton = false;
 let lastMoveoutElement = null;
-
+// const  chromeLocalStorage = chrome.storage.local
 function getElementLeft(element){
   var actualLeft = element.offsetLeft;
   var current = element.offsetParent;
@@ -37,6 +37,14 @@ function getButtonElement(){
   buttonElement.style.fontSize = '12px';
   buttonElement.style.padding = '0px';
   buttonElement.addEventListener('click', function(event){
+    const host = window.location.origin
+    const cssPath = getCssPath(lastMoveoutElement)
+    chrome.storage.local.set({
+      [host]: [cssPath],
+    }, function(){
+      console.log('save success!');
+    })
+      
     lastMoveoutElement.style.display = 'none'
   })
   bodyElement.append(buttonElement)
@@ -68,7 +76,7 @@ bodyElement && bodyElement.addEventListener('mouseout', function(event){
   lastMoveoutElement = event.target;
 }, false)
 
-cssPath = function cssPath(el) {
+function getCssPath(el) {
   if (!(el instanceof Element)) return;
   var path = [];
   while (el.nodeType === Node.ELEMENT_NODE && el.nodeName !== 'HTML') {
