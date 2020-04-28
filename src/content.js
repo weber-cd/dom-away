@@ -3,6 +3,7 @@ let buttonElement = null;
 let moveToDeleteButton = false;
 let lastMoveoutElement = null;
 const theHost = window.location.origin;
+
 // TODO: just run in dev mode
 // chrome.storage.sync.clear();
 // const  chromeLocalStorage = chrome.storage.local

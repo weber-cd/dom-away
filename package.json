@@ -5,7 +5,8 @@
   "main": "background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "build": "npx babel src  --out-dir lib --config-file ./babel.config.json"
   },
   "config": {
     "commitizen": {
@@ -29,6 +30,10 @@
   },
   "homepage": "https://github.com/weber-cd/dom-away#readme",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
     "commitizen": "^4.0.4",
     "cz-customizable": "^6.2.0"
   }
