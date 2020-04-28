@@ -2,7 +2,45 @@ let bodyElement = document.querySelector('body')
 let buttonElement = null;
 let moveToDeleteButton = false;
 let lastMoveoutElement = null;
+const theHost = window.location.origin;
+// TODO: just run in dev mode
+// chrome.storage.sync.clear();
 // const  chromeLocalStorage = chrome.storage.local
+/* chrome.storage.local.get(theHost, function(res){
+  if(res && res[theHost]){
+    document.querySelector(res[theHost]).style.display = 'none'
+  }
+}) */
+
+(async () => {
+  const storageCssPaths =  await getStorageSync();
+  storageCssPaths.forEach((path) => {
+    document.querySelector(path).style.display = 'none'
+  })
+})()
+
+async function getStorageSync() {
+  return new Promise(function(resolve, reject){
+    chrome.storage.sync.get(theHost, function(res){
+      if(res && res[theHost]){
+        resolve(res[theHost])
+      }
+    })
+  })
+}
+
+
+/* function getStorageSync(){
+  
+  chrome.storage.sync.get(theHost, function(res){
+    if(res && res[theHost]){
+      storageCache = res[theHost]
+    }
+  })
+  return storageCache || []
+} */
+
+
 function getElementLeft(element){
   var actualLeft = element.offsetLeft;
   var current = element.offsetParent;
@@ -37,12 +75,13 @@ function getButtonElement(){
   buttonElement.style.fontSize = '12px';
   buttonElement.style.padding = '0px';
   buttonElement.addEventListener('click', function(event){
-    const host = window.location.origin
     const cssPath = getCssPath(lastMoveoutElement)
-    chrome.storage.local.set({
-      [host]: [cssPath],
-    }, function(){
-      console.log('save success!');
+    const cssPathStoraged = getStorageSync()
+    cssPathStoraged.push(cssPath)
+    chrome.storage.sync.set({
+      [theHost]: cssPathStoraged
+    }, function(res){
+      console.log('save success:', res);
     })
       
     lastMoveoutElement.style.display = 'none'
