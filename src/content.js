@@ -13,19 +13,28 @@ const theHost = window.location.origin;
   }
 }) */
 
-(async () => {
+window.onload = async function(){
   const storageCssPaths =  await getStorageSync();
   storageCssPaths.forEach((path) => {
     document.querySelector(path).style.display = 'none'
   })
-})()
+}
+
+/* (async () => {
+  const storageCssPaths =  await getStorageSync();
+  storageCssPaths.forEach((path) => {
+    console.log(path)
+    document.querySelector(path).style.display = 'none'
+  })
+})() */
 
 async function getStorageSync() {
   return new Promise(function(resolve, reject){
     chrome.storage.sync.get(theHost, function(res){
       if(res && res[theHost]){
-        resolve(res[theHost])
+        return resolve(res[theHost])
       }
+      return resolve([])
     })
   })
 }
@@ -65,6 +74,17 @@ function getElementTop(element){
 　　return actualTop;
 　}
 
+async function handleDeleteButtonClick(event){
+  const cssPath = getCssPath(lastMoveoutElement)
+  const cssPathStoraged = await getStorageSync()
+  cssPathStoraged.push(cssPath)
+  chrome.storage.sync.set({
+    [theHost]: cssPathStoraged
+  }, function(res){
+  })
+  lastMoveoutElement.style.display = 'none'
+}
+
 function getButtonElement(){
   if(buttonElement) return buttonElement
   buttonElement = document.createElement("button")
@@ -76,16 +96,7 @@ function getButtonElement(){
   buttonElement.style.fontSize = '12px';
   buttonElement.style.padding = '0px';
   buttonElement.addEventListener('click', function(event){
-    const cssPath = getCssPath(lastMoveoutElement)
-    const cssPathStoraged = getStorageSync()
-    cssPathStoraged.push(cssPath)
-    chrome.storage.sync.set({
-      [theHost]: cssPathStoraged
-    }, function(res){
-      console.log('save success:', res);
-    })
-      
-    lastMoveoutElement.style.display = 'none'
+    handleDeleteButtonClick(event)
   })
   bodyElement.append(buttonElement)
   return buttonElement
